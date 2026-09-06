@@ -2,7 +2,7 @@
 set -eo pipefail
 
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PATH"
-PROJECT_DIR="/mnt/c/Users/Kuan/Desktop/Practice/Job_Scanner/job-scanner"
+PROJECT_DIR="/home/kuwang/Desktop/practice/job-scanner"
 LOG_DIR="${PROJECT_DIR}/logs"
 ENV_FILE="${PROJECT_DIR}/.env"
 
@@ -26,7 +26,6 @@ cd "$PROJECT_DIR"
     else
         echo "⚠️ Warning: .env file not found at ${ENV_FILE}"
     fi
-    env
 
     echo "🔨 Building Docker image..."
     docker build -t job-scanner .
