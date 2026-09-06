@@ -4,6 +4,7 @@ set -eo pipefail
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PATH"
 PROJECT_DIR="/mnt/c/Users/Kuan/Desktop/Practice/Job_Scanner/job-scanner"
 LOG_DIR="${PROJECT_DIR}/logs"
+ENV_FILE="${PROJECT_DIR}/.env"
 
 mkdir -p "$LOG_DIR"
 TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
@@ -16,13 +17,27 @@ cd "$PROJECT_DIR"
     echo "🚀 Job Scanner Pipeline Started: $(date '+%Y-%m-%d %H:%M:%S')"
     echo "========================================================"
 
-    export NOTION_API_KEY="your_new_notion_token"
-    
+    if [ -f "$ENV_FILE" ]; then
+        echo "📄 Loading environment variables from"
+        set -a
+        # shellcheck disable=SC1090
+        source "$ENV_FILE"
+        set +a
+    else
+        echo "⚠️ Warning: .env file not found at ${ENV_FILE}"
+    fi
+    env
+
     echo "🔨 Building Docker image..."
     docker build -t job-scanner .
     
     echo "🏃 Running container..."
-    docker run --rm -i -e NOTION_API_KEY="$NOTION_API_KEY" job-scanner python test_api.py
+
+    if [ -f "$ENV_FILE" ]; then
+        docker run --rm -i --env-file "$ENV_FILE" job-scanner python test_api.py
+    else
+        docker run --rm -i job-scanner python test_api.py
+    fi
     
     echo "========================================================"
     echo "✅ Finished Successfully: $(date '+%Y-%m-%d %H:%M:%S')"

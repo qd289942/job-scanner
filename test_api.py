@@ -13,6 +13,9 @@ NOTION_DATABASE_ID = "3d1bff35043f8019a0dce770e092f4ab"
 NOTION_API_URL = "https://api.notion.com/v1/pages"
 NOTION_QUERY_URL = f"https://api.notion.com/v1/databases/{NOTION_DATABASE_ID}/query"
 
+if not NOTION_API_KEY:
+    raise ValueError("NOTION_API_KEY is empty or not set!")
+
 async def job_exists_in_notion(client: httpx.AsyncClient, job_url: str) -> bool:
     """Check if job already exists in Notion database by URL"""
     headers = {
