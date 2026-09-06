@@ -15,12 +15,14 @@ cd "$PROJECT_DIR"
     echo "========================================================"
     echo "🚀 Job Scanner Pipeline Started: $(date '+%Y-%m-%d %H:%M:%S')"
     echo "========================================================"
+
+    export NOTION_API_KEY="your_new_notion_token"
     
     echo "🔨 Building Docker image..."
     docker build -t job-scanner .
     
     echo "🏃 Running container..."
-    docker run --rm -i job-scanner python test_api.py
+    docker run --rm -i -e NOTION_API_KEY="$NOTION_API_KEY" job-scanner python test_api.py
     
     echo "========================================================"
     echo "✅ Finished Successfully: $(date '+%Y-%m-%d %H:%M:%S')"
