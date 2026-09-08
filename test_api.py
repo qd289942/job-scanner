@@ -154,27 +154,25 @@ async def test_jobs_ch_api():
     
     technologies = [
         "TypeScript", 
-        # "JavaScript", 
-        # "React", 
-        # "Node.js", 
-        # "Python", 
-        # "Java", 
-        # "Docker", 
-        # "Kubernetes", 
-        # "DevOps", 
-        # "PostgreSQL",
-        # "CI/CD", 
-        # "Git", 
-        # "Linux", 
-        # "Copilot",
-        # "Angular",
-        # "Backstage",
-        # "Platform Engineering",
+        "JavaScript", 
+        "React", 
+        "Node.js", 
+        "Python", 
+        "Java", 
+        "Docker", 
+        "Kubernetes", 
+        "DevOps", 
+        "PostgreSQL",
+#        "CI/CD",  
+#        "Copilot",
+        "Angular",
+        "Backstage",
+        "Platform Engineering",
         ]
     all_jobs = {}
 
-    # Calculate the cutoff date (45 days ago)
-    fourtyfive_days_ago = datetime.now() - timedelta(days=45)
+    # Calculate the cutoff date (35 days ago)
+    cutoff_time = datetime.now() - timedelta(days=35)
 
     async with httpx.AsyncClient(timeout=20.0, verify=False) as client:
         print("📋 Checking Notion database properties...")
@@ -196,7 +194,7 @@ async def test_jobs_ch_api():
             while results_yielded < limit:
                 params = {
                     "query": tech,
-                    "location": "Zürich",
+                    "location": "Zürich OR Basel OR Bern",
                     "rows": min(20, limit - results_yielded),
                     "sort": "date",
                     "page": page
@@ -237,7 +235,7 @@ async def test_jobs_ch_api():
                         if pub_date_str:
                             try:
                                 dt_parsed = datetime.fromisoformat(pub_date_str.replace('Z', '+00:00'))
-                                if dt_parsed.replace(tzinfo=None) < fourtyfive_days_ago:
+                                if dt_parsed.replace(tzinfo=None) < cutoff_time:
                                     continue
                                 posted_date = pub_date_str.split("T")[0]
                             except Exception as e:
