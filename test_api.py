@@ -160,19 +160,19 @@ async def test_jobs_ch_api():
         "Python", 
         "Java", 
         "Docker", 
-        "Kubernetes", 
+        # "Kubernetes", 
         "DevOps", 
         "PostgreSQL",
-#        "CI/CD",  
-#        "Copilot",
-        "Angular",
-        "Backstage",
+        # "CI/CD",  
+        # "Copilot",
+        # "Angular",
+        # "Backstage",
         "Platform Engineering",
         ]
     all_jobs = {}
 
-    # Calculate the cutoff date (35 days ago)
-    cutoff_time = datetime.now() - timedelta(days=35)
+    # Calculate the cutoff date (25 days ago)
+    cutoff_time = datetime.now() - timedelta(days=25)
 
     async with httpx.AsyncClient(timeout=20.0, verify=False) as client:
         print("📋 Checking Notion database properties...")
@@ -194,7 +194,7 @@ async def test_jobs_ch_api():
             while results_yielded < limit:
                 params = {
                     "query": tech,
-                    "location": "Zürich OR Basel OR Bern",
+                    "location": "Zürich OR Basel OR Bern OR St. Gallen OR Lucerne",
                     "rows": min(20, limit - results_yielded),
                     "sort": "date",
                     "page": page

@@ -4,7 +4,7 @@ set -eo pipefail
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PATH"
 export DOCKER_API_VERSION="1.44"
 
-PROJECT_DIR="/home/kuwang/Desktop/practice/job-scanner"
+PROJECT_DIR="/mnt/c/Users/Kuan/Desktop/Practice/Job_Scanner/job-scanner"
 LOG_DIR="${PROJECT_DIR}/logs"
 ENV_FILE="${PROJECT_DIR}/.env"
 
